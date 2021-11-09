@@ -1,0 +1,3 @@
+---@class ComponentProxy
+---@field type string
+---@field address string
