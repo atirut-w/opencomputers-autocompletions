@@ -1,0 +1,7 @@
+---@class FilesystemProxy: ComponentProxy
+---  Opens a new file descriptor and returns its handle.
+---@field open fun(path: string, mode?: openmode): number
+---
+---
+--- Reads up to the specified amount of data from an open file descriptor with the specified handle. Returns `nil` when EOF is reached.
+---@field read fun(handle: number, count: number): string | nil
