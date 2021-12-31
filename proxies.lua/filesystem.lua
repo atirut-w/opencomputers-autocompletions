@@ -3,5 +3,21 @@
 ---@field open fun(path: string, mode?: openmode): number
 ---
 ---
+--- Closes an open file descriptor with the specified handle.
+---@field close fun(fd: number)
+---
+---
 --- Reads up to the specified amount of data from an open file descriptor with the specified handle. Returns `nil` when EOF is reached.
 ---@field read fun(handle: number, count: number): string | nil
+---
+---
+--- Writes the specified data to an open file descriptor with the specified handle.
+---@field write fun(handle: number, value: string): number
+---
+---
+--- Returns whether the object at the specified absolute path in the file system is a directory.
+---@field isDirectory fun(path: string): boolean
+---
+---
+--- Returns a list of names of objects in the directory at the specified absolute path in the file system.
+---@field list fun(path: string): string[]
