@@ -15,3 +15,42 @@
 ---
 --- Fills a rectangle in the screen buffer with the specified character. The target rectangle is specified by the `x` and `y` coordinates and the rectangle's `width` and `height`. The fill character `char` must be a string of length one, i.e. a single character. Returns `true` on success, `false` otherwise.
 ---@field fill fun(x: integer, y: integer, width: integer, height: integer, char: string): boolean
+---
+---
+--- Gets the current background color. This background color is applied to all “pixels” that get changed by other operations.
+---
+--- Note that the returned number is either an RGB value in hexadecimal format, i.e. `0xRRGGBB`, or a palette index. The second returned value indicates which of the two it is (`true` for palette color, `false` for RGB value).
+---@field getBackground fun(): integer, boolean
+---
+---
+--- Sets the background color to apply to “pixels” modified by other operations from now on. The returned value is the old background color, as the actual value it was set to (i.e. not compressed to the color space currently set). The first value is the previous color as an RGB value. If the color was from the palette, the second value will be the index in the palette. Otherwise it will be `nil`. Note that the color is expected to be specified in hexadecimal RGB format, i.e. `0xRRGGBB`. This is to allow uniform color operations regardless of the color depth supported by the screen and GPU.
+---@field setBackground fun(color: integer, isPaletteIndex?: boolean): integer, integer?
+---
+---
+--- Allocates a new buffer with dimensions width*heigh (gpu max resolution by default). Returns the index of this new buffer or error when there is not enough video memory. A buffer can be allocated even when there is no screen bound to this gpu. Index 0 is always reserved for the screen and thus the lowest possible index of an allocated buffer is always 1.
+---@field allocateBuffer fun(width: integer, height: integer): integer
+---
+---
+--- Sets the active buffer to `index`. 0 is reserved for the screen and can be set even when there is no screen. Returns nil for an invalid index (0 is valid even with no screen)
+---@field setActiveBuffer fun(index: integer): integer
+---
+---
+--- Returns the index of the currently selected buffer. 0 is reserved for the screen, and may return 0 even when there is no screen
+---@field getActiveBuffer fun(): integer
+---
+---
+--- Returns the buffer size at `index` (default: current buffer index). Returns the screen resolution for index 0. Returns nil for invalid indexes
+---@field getBufferSize fun(index: integer): integer, integer
+---
+---
+--- Copy a region from buffer to buffer, screen to buffer, or buffer to screen. Defaults:
+--- * dst = 0, the screen
+--- * col, row = 1,1
+--- * width, height = resolution of the destination buffer
+--- * src = the current buffer
+--- * fromCol, fromRow = 1,1 bitblt should preform very fast on repeated use. If the buffer is dirty there is an initial higher cost to sync the buffer with the destination object. If you have a large number of updates to make with frequent bitblts, consider making multiple and smaller buffers. If you plan to use a static buffer (one with few or no updatse), then a large buffer is just fine. Returns true on success 
+---@field bitblt fun(dst: integer, col: integer, row: integer, width: integer, height: integer, src: integer, fromCol: integer, fromRow: integer)
+---
+---
+--- Removes buffer at `index` (default: current buffer index). Returns true if the buffer was removed. When you remove the currently selected buffer, the gpu automatically switches back to index 0 (reserved for a screen)
+---@field freeBuffer fun(index: integer): boolean
