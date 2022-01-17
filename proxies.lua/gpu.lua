@@ -54,3 +54,7 @@
 ---
 --- Removes buffer at `index` (default: current buffer index). Returns true if the buffer was removed. When you remove the currently selected buffer, the gpu automatically switches back to index 0 (reserved for a screen)
 ---@field freeBuffer fun(index: integer): boolean
+---
+---
+--- Like `setBackground`, but for the foreground color.
+---@field setForeground fun(color: integer, isPaletteIndex?: boolean): integer, integer?
